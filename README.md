@@ -1,6 +1,7 @@
 # 1082-Final-Project: Employee Rewards System
 ## Contributors
 Jonathan Villa
+
 Kesler Jensrud
 ## Project goal
 Create a program which ranks retail employees based on a number of factors, including:
