@@ -2,7 +2,7 @@
 ## Contributors
 Jonathan Villa
 
-Quanzhen "Jay" Lu
+Quanzhen Lu
 ## Project goal
 Create a program which ranks retail employees based on a number of factors, including:
 * Number of transactions completed/started but left incomplete
