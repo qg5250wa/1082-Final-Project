@@ -1,11 +1,6 @@
 package edu.century.rewards_system;
-import jdk.internal.loader.Resource;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
+import java.util.ArrayList;
 /**
  * This is the object class that handles Employee functions, such as generated
  * personal identifiers (like personality and name).
@@ -14,11 +9,9 @@ import java.io.IOException;
  *
  */
 public class Employee {
-	
-	
 
-	private static int totalEmployees = 0;
-	private static int[] usedNames;
+//	private static int totalEmployees = 0;
+	private static ArrayList<Integer> usedNames;
 	private int name; // tells RankingsBoard which name to show from genNames.txt
 	private int workEthic; // how hard the Employee tries at their job; 1-10
 	private int sociability; // how much the Employee tries to talk to customers; 1-10
@@ -32,11 +25,18 @@ public class Employee {
 	 * @return
 	 */
 	public int genName(int amtNames) {
-		return (int) (1 + Math.random() * amtNames);
-	}
-
-	public static int getTotalEmployees() {
-		return totalEmployees;
+		int temp = 0;
+		while(temp == 0) {
+			temp = (int) (1 + Math.random() * amtNames);
+			for(int i = 0; i < usedNames.size(); i++) {
+				if(temp == usedNames.get(i))
+					temp = 0;
+				else {
+					usedNames.add(temp);
+				}
+			}
+		}
+		return temp;
 	}
 
 	public int getName() {
@@ -55,11 +55,11 @@ public class Employee {
 		this.workEthic = workEthic;
 	}
 
-	public int getExtraversion() {
+	public int getSociability() {
 		return sociability;
 	}
 
-	public void setExtraversion(int extraversion) {
+	public void setSociability(int extraversion) {
 		this.sociability = extraversion;
 	}
 }
