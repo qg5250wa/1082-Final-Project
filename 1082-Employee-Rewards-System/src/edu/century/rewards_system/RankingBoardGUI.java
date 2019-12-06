@@ -10,20 +10,15 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class RankingBoardGUI extends JFrame {
 	
-	private Employee[] employees;
+	private EmployeeListHandler empList;
+	private final int amtEmps = 10;
 
 	public RankingBoardGUI(String winTitle) {
 		super(winTitle);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 450);
 		setVisible(true);
+		
+//		empList = new EmployeeListHandler(amtEmps);
 	}
-	
-	public void genEmployees(int amtEmployees) {
-		employees = new Employee[amtEmployees];
-		for(int i = 0; i < amtEmployees; i++) {
-			
-		}
-	}
-	
 }

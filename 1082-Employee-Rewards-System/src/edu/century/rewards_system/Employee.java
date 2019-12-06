@@ -18,38 +18,21 @@ public class Employee {
 	private String name;
 	private int workEthic; // how hard the Employee tries at their job; 0-10
 	private int sociability; // how much the Employee tries to talk to customers; 0-10
+	private int rankingPoints;
 
 	/**
 	 * 
+	 * @param nameIndex Which name to take from genNames.txt
 	 */
-	public Employee() {
-		name = genName();
+	public Employee(String name, int workEthic, int sociability) {
+		this.name = name;
+		this.workEthic = workEthic;
+		this.sociability = sociability;
 	}
-
-	/**
-	 * Picks a random name from genNames.txt. TODO: Read names from a file (use
-	 * FileReader)
-	 * 
-	 * @return name enum
-	 */
-	public String genName() {
-		FileReader fr = null;
-		try {
-			fr = new FileReader(nameGenFile);
-
-		} catch (FileNotFoundException e) {
-			
-		}
-
-		return null;
-	}
-
-	public int genWorkEthic() {
-		return (int) (Math.random() * 10);
-	}
-
-	public int genSociability() {
-		return (int) (Math.random() * 10);
+	
+	public Employee(String name, int workEthic, int sociability, int rankingPoints) {
+		this(name, workEthic, sociability);
+		this.setRankingPoints(rankingPoints);
 	}
 
 	public String getName() {
@@ -74,6 +57,14 @@ public class Employee {
 
 	public void setSociability(int sociability) {
 		this.sociability = sociability;
+	}
+
+	public int getRankingPoints() {
+		return rankingPoints;
+	}
+
+	public void setRankingPoints(int rankingPoints) {
+		this.rankingPoints = rankingPoints;
 	}
 
 }
