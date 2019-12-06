@@ -2,6 +2,7 @@ package edu.century.rewards_system;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -20,13 +21,13 @@ public class EmployeeListHandler {
 	private File namesFile;
 
 	/**
-	 * Constructor, sets the list of Employees to a value.
+	 * Constructor for EmployeeListHandler
 	 * 
-	 * @param amtEmployees Amount of Employees to handle
-	 * @throws IOException        if reader can't read the line
-	 * @throws URISyntaxException
+	 * @param listSize Amount of Employees to handle
+	 * @throws IOException If the file reader can't read the genNames.txt file
+	 *                     correctly (e.g. it doesn't exist)
 	 */
-	public EmployeeListHandler(int amtEmployees) throws IOException {
+	public EmployeeListHandler(int listSize){
 
 		try {
 			namesFile = new File(getClass().getResource("genNames.txt").toURI());
@@ -35,22 +36,26 @@ public class EmployeeListHandler {
 		}
 
 		allNames = new ArrayList<String>();
-		emps = new Employee[amtEmployees];
-		
-		BufferedReader reader = new BufferedReader(new FileReader(namesFile));
-		while (reader.ready()) {
-			allNames.add(reader.readLine());
+		emps = new Employee[listSize];
+
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(namesFile));
+			while (reader.ready()) {
+				allNames.add(reader.readLine());
+			}
+			reader.close();
+		} catch (IOException e) {
+			System.err.println("File can't be read properly!");
 		}
-		reader.close();
-		
+
 		for (int i = 0; i < emps.length; i++)
 			generateEmployee(i);
 	}
 
 	/**
-	 * Gets every name available to use from genNames.txt
 	 * 
-	 * @return Every name
+	 * @return Every name in genNames.txt
 	 */
 	public String getAllNames() {
 		String retval = "";
@@ -61,9 +66,8 @@ public class EmployeeListHandler {
 	}
 
 	/**
-	 * Gets the names currently active in the rankings board
 	 * 
-	 * @return Current names
+	 * @return All names currently in the Employee List
 	 */
 	public String getActiveNames() {
 		String retval = "";
@@ -127,17 +131,18 @@ public class EmployeeListHandler {
 	 * @param rankingPoints Ranking points to start off with
 	 */
 	public void generateEmployee(int index, int rankingPoints) {
-		emps[index] = new Employee(allNames.get((int) (1 + Math.random() * allNames.size())),
-				(int) (1 + Math.random() * 10), (int) (1 + Math.random() * 10), rankingPoints);
+		emps[index] = new Employee(allNames.get((int) (Math.random() * allNames.size())),
+				(int) (Math.random() * 10), (int) (Math.random() * 10), rankingPoints);
+		//creates an employee with random name from allNames, random workEthic (0-10 incl.) and random Sociability (0-10 incl.)
 	}
 
 	@Override
 	public String toString() {
 		String retval = "";
 		for (int i = 0; i < emps.length; i++) {
-			retval += (i + 1) + ": " + emps[i].getName() + System.lineSeparator() + "\tRP: " + emps[i].getRankingPoints()
-					+ " Ethic: " + emps[i].getWorkEthic() + " Social: " + emps[i].getSociability()
-					+ System.lineSeparator();
+			retval += (i + 1) + ": " + emps[i].getName() + System.lineSeparator() + "\tRP: "
+					+ emps[i].getRankingPoints() + " Ethic: " + emps[i].getWorkEthic() + " Social: "
+					+ emps[i].getSociability() + System.lineSeparator();
 		}
 		return retval;
 	}
