@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Handles the list of Employees
@@ -14,7 +15,11 @@ import java.util.ArrayList;
  * @author qg5250wa
  *
  */
-public class EmployeeListHandler {
+public class EmpListHandler {
+
+	public static final int RANKING_POINTS = 0;
+	public static final int SOCIABILITY = 1;
+	public static final int WORK_ETHIC = 2;
 
 	private Employee[] emps;
 	private ArrayList<String> allNames;
@@ -27,7 +32,7 @@ public class EmployeeListHandler {
 	 * @throws IOException If the file reader can't read the genNames.txt file
 	 *                     correctly (e.g. it doesn't exist)
 	 */
-	public EmployeeListHandler(int listSize){
+	public EmpListHandler(int listSize) {
 
 		try {
 			namesFile = new File(getClass().getResource("genNames.txt").toURI());
@@ -42,9 +47,10 @@ public class EmployeeListHandler {
 		try {
 			reader = new BufferedReader(new FileReader(namesFile));
 			while (reader.ready()) {
-				allNames.add(reader.readLine());
+				allNames.add(reader.readLine()); // adds each line of the txt to the list, as long as there is a line to
+													// read.
 			}
-			reader.close();
+			reader.close(); // close the reader; we don't need it anymore.
 		} catch (IOException e) {
 			System.err.println("File can't be read properly!");
 		}
@@ -63,6 +69,14 @@ public class EmployeeListHandler {
 			retval += i + ": " + allNames.get(i) + System.lineSeparator();
 		}
 		return retval;
+	}
+	
+	/**
+	 * 
+	 * @return How many employees are in the current list
+	 */
+	public int getAmtEmployees() {
+		return emps.length;
 	}
 
 	/**
@@ -96,6 +110,37 @@ public class EmployeeListHandler {
 	}
 
 	/**
+	 * Sets a certain variable in one of the Employees in the list
+	 * 
+	 * @param index Which entry in the list to change
+	 * @param var   Which variable to change (use this class's enums)
+	 * @param value Value to set the variable to
+	 */
+	public void setEmployeeValue(int index, int var, int value) {
+		switch (var) {
+		case RANKING_POINTS:
+			emps[index].setRankingPoints(value);
+			break;
+		case SOCIABILITY:
+			emps[index].setSociability(value);
+			break;
+		case WORK_ETHIC:
+			emps[index].setWorkEthic(value);
+			break;
+		default:
+			break;
+		}
+	}
+	/**
+	 * Adds the specified amount of ranking points to the Employee at the given index
+	 * @param index Which Employee to add ranking points to
+	 * @param value How many ranking points to add
+	 */
+	public void addRankingPoints(int index, int value) {
+		emps[index].addRankingPoints(value);
+	}
+
+	/**
 	 * Attempts to fill in the gaps created by removed Employees.
 	 */
 	public void fillGaps() {
@@ -116,13 +161,28 @@ public class EmployeeListHandler {
 			}
 		}
 	}
+	
+	public Employee searchEmployees(String name){
+		for(int i = 0; i < emps.length; i++) {
+			if(name.equals(emps[i].getName())) {
+				return emps[i];
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Sorts the list by ranking points, and puts null values at the bottom
+	 */
+	public void sortList() {
+		Arrays.sort(emps);
+	}
 
 	/**
 	 * Generates an employee with 0 ranking points
 	 */
 	public void generateEmployee(int index) {
-		emps[index] = new Employee(allNames.get((int) (Math.random() * allNames.size())),
-				(int) (1 + Math.random() * 10), (int) (1 + Math.random() * 10));
+		generateEmployee(index, 0);
 	}
 
 	/**
@@ -131,9 +191,25 @@ public class EmployeeListHandler {
 	 * @param rankingPoints Ranking points to start off with
 	 */
 	public void generateEmployee(int index, int rankingPoints) {
-		emps[index] = new Employee(allNames.get((int) (Math.random() * allNames.size())),
-				(int) (Math.random() * 10), (int) (Math.random() * 10), rankingPoints);
-		//creates an employee with random name from allNames, random workEthic (0-10 incl.) and random Sociability (0-10 incl.)
+		boolean used = false;
+		String newName = "";
+		do {
+			newName = allNames.get((int) (Math.random() * allNames.size()));
+			for (int i = 0; i < emps.length; i++) {
+				if (emps[i] != null) {
+					if (!emps[i].getName().equals(newName)) {
+						used = false;
+					} else {
+						used = true;
+						break;
+					}
+				}
+			}
+		} while (used);
+		emps[index] = new Employee(newName, (int) (1 + Math.random() * 10), (int) (1 + Math.random() * 10),
+				rankingPoints);
+		// creates an employee with random name from allNames, random workEthic (0-10
+		// incl.) and random Sociability (0-10 incl.)
 	}
 
 	@Override

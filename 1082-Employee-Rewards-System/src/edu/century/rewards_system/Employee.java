@@ -1,9 +1,5 @@
 package edu.century.rewards_system;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
-
 /**
  * This is the object class that handles Employee functions, such as generated
  * personal identifiers (like personality and name).
@@ -11,7 +7,7 @@ import java.util.ArrayList;
  * @author qg5250wa
  *
  */
-public class Employee {
+public class Employee implements Comparable<Employee> {
 
 //	private static ArrayList<Integer> usedNames;
 	private String name;
@@ -31,7 +27,15 @@ public class Employee {
 
 	public Employee(String name, int workEthic, int sociability, int rankingPoints) {
 		this(name, workEthic, sociability);
-		this.setRankingPoints(rankingPoints);
+		this.rankingPoints = rankingPoints;
+	}
+	
+	/**
+	 * Adds the specified amount of ranking points to this Employee
+	 * @param value How many ranking points to add
+	 */
+	public void addRankingPoints(int value) {
+		rankingPoints += value;
 	}
 
 	public String getName() {
@@ -64,6 +68,18 @@ public class Employee {
 
 	public void setRankingPoints(int rankingPoints) {
 		this.rankingPoints = rankingPoints;
+	}
+
+	@Override
+	public int compareTo(Employee o) {
+		if (rankingPoints == o.getRankingPoints())
+			return 0;
+		else if (rankingPoints > o.getRankingPoints())
+			return -1;
+		else if (rankingPoints < o.getRankingPoints())
+			return 1;
+		else
+			return 0;
 	}
 
 }
