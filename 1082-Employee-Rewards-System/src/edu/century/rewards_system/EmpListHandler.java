@@ -69,9 +69,9 @@ public class EmpListHandler {
 		}
 		return retval;
 	}
-	
+
 	public void submitSurveyAnswers(SurveyGUI survey) {
-		
+
 	}
 
 	/**
@@ -81,10 +81,10 @@ public class EmpListHandler {
 	public int getAmtEmployees() {
 		return emps.length;
 	}
-	
+
 	public String[] getActiveNames() {
 		String[] retval = new String[emps.length];
-		for(int i = 0; i < emps.length; i++) {
+		for (int i = 0; i < emps.length; i++) {
 			retval[i] = emps[i].getName();
 		}
 		return retval;
@@ -208,13 +208,22 @@ public class EmpListHandler {
 	public void sortList() {
 		Arrays.sort(emps);
 	}
-	
+
 	/**
 	 * Gets the employee at the given place in the list
+	 * 
 	 * @param index Index of the employee you want to get
 	 */
 	public Employee getEmployee(int index) {
 		return emps[index];
+	}
+
+	/**
+	 * Returns a random Employee from the active list
+	 * @return A random Employee
+	 */
+	public Employee getRandomEmployee() {
+		return emps[(int) Math.random() * emps.length];
 	}
 
 	/**

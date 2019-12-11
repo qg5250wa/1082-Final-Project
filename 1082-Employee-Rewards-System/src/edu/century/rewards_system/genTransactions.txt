@@ -13,13 +13,13 @@
 # Rewards card scores
 {10, 10} !n offered you a Rewards Card and advertised all of the money-saving features that having one would get you. They assured you that signing up for one would be very quick.
 {7, 7} !n offered you a Rewards Card and advertised all of the money-saving features that having one would get you.
-{6, 6} !n offered you a Rewards Card and advertised some of the features of it, but didn't seem all to interested in it themselves.
+{6, 6} !n offered you a Rewards Card and advertised some of the features of it, but didn't seem all too interested in it themselves.
 {4, 4} !n offered you a Rewards Card.
 
 # Charge card scores
 {10, 10} !n offered you a Charge Card and advertised all of the money-saving features that having one would get you. They assured you that signing up for one would be very quick.
 {7, 7} !n offered you a Charge Card and advertised all of the money-saving features that having one would get you.
-{6, 6} !n offered you a Charge Card and advertised some of the features of it, but didn't seem all to interested in it themselves.
+{6, 6} !n offered you a Charge Card and advertised some of the features of it, but didn't seem all too interested in it themselves.
 {4, 4} !n offered you a Charge Card.
 
 # Speed scores

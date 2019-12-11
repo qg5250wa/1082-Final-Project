@@ -1,7 +1,6 @@
 package edu.century.rewards_system;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -22,6 +21,8 @@ import javax.swing.event.ChangeListener;
 public class SurveyGUI extends JFrame implements ActionListener, ChangeListener {
 
 	private static final long serialVersionUID = 2010821726451298482L;
+	
+	private SurveyHandler handler;
 
 	private JLabel[] questions;
 	private JComboBox<String> cEmps;
@@ -31,16 +32,29 @@ public class SurveyGUI extends JFrame implements ActionListener, ChangeListener 
 	private JButton bSubmit, bClose;
 	private JPanel pMainUpper, pMainLower, pMain, pBottom;
 	private JTextField tOverall, tSpeed, tAttention;
+	private JOptionPane oSynopsis;
+	private JDialog dSynopsis;
+	
 	private int nOverall = 5, nSpeed = 5, nAttention = 5;
+	
+	private boolean submitted = false;
+	private boolean disposed = false;
 
 	public SurveyGUI(String title, EmpListHandler emps, Employee correctEmp) {
 		super(title);
 		setSize(450, 830);
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+		
+		handler = new SurveyHandler(correctEmp);
+		
+		oSynopsis = new JOptionPane("<html><body>" + handler.genSynopsis() + "</body></html>", JOptionPane.INFORMATION_MESSAGE);
+		dSynopsis = oSynopsis.createDialog("Transaction Summary");
+		dSynopsis.setSize(400, 300);
+		dSynopsis.setVisible(true);
+		
 		questions = new JLabel[] { new JLabel("Who was the employee who handled your transaction?"), new JLabel(
-				"<html>Out of 10, please rate your transaction,<br>with 10 being the best and 1 being the worst</html>"),
+				"<html><body>Out of 10, please rate your transaction,<br>with 10 being the best and 1 being the worst</body></html>"),
 				new JLabel(
 						"<html>Out of 10, please rate the speed of your transaction,<br>with 10 being the fastest and 1 being the slowest</html>"),
 				new JLabel(
@@ -144,7 +158,7 @@ public class SurveyGUI extends JFrame implements ActionListener, ChangeListener 
 
 		add(pMainUpper, BorderLayout.CENTER);
 		add(pBottom, BorderLayout.SOUTH);
-
+		
 		setVisible(true);
 	}
 	
@@ -152,21 +166,80 @@ public class SurveyGUI extends JFrame implements ActionListener, ChangeListener 
 	 * Adds the score of every selected menu item.
 	 * @return Total score
 	 */
-	public int tallyScore() {
+	private int tallyScore() {
+		int rScore = 0;
+		if(gRewards.getSelection().equals(bRewards[1].getModel())) {
+			rScore -= 5;
+		}
+		else {
+			rScore += 5;
+			if(gRewardsSignup.getSelection().equals(bRewardsSignup[0].getModel())) {
+				rScore += 10;
+			}
+			else if (gRewardsSignup.getSelection().equals(bRewardsSignup[1].getModel())) {
+				rScore += 9;
+			}
+			else if (gRewardsSignup.getSelection().equals(bRewardsSignup[2].getModel())) {
+				rScore += 8;
+			}
+			else if (gRewardsSignup.getSelection().equals(bRewardsSignup[3].getModel())) {
+				rScore += 7;
+			}
+			else if (gRewardsSignup.getSelection().equals(bRewardsSignup[4].getModel())) {
+				rScore -= 2;
+			}
+		}
 		
+		int cScore = 0;
 		
-		
-		return (sOverall.getValue() - 5) + (sSpeed.getValue() - 5) + (sAttention.getValue() - 5);
+		if(gCharge.getSelection().equals(bCharge[1].getModel())) {
+			cScore -= 10;
+		}
+		else {
+			cScore += 10;
+			if(gChargeSignup.getSelection().equals(bChargeSignup[0].getModel())) {
+				cScore += 20;
+			}
+			else if (gChargeSignup.getSelection().equals(bChargeSignup[1].getModel())) {
+				cScore += 18;
+			}
+			else if (gChargeSignup.getSelection().equals(bChargeSignup[2].getModel())) {
+				cScore += 16;
+			}
+			else if (gChargeSignup.getSelection().equals(bChargeSignup[3].getModel())) {
+				cScore += 14;
+			}
+			else if (gChargeSignup.getSelection().equals(bChargeSignup[4].getModel())) {
+				cScore -= 4;
+			}
+		}
+		return (sOverall.getValue() - 5) + (sSpeed.getValue() - 5) + (sAttention.getValue() - 5) + (sAttention.getValue() - 5) + rScore + cScore;
+	}
+	
+	public boolean getSubmitted() {
+		return submitted;
+	}
+	
+	public boolean getDisposed() {
+		return disposed;
+	}
+	
+	public int[] getTotalScore() {
+		return new int[] {cEmps.getSelectedIndex(), tallyScore()};
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals(bSubmit.getActionCommand())) {
-			System.out.println(getSize());
-		}
-		if (e.getActionCommand().equals(bClose.getActionCommand())) {
+			submitted = true;
+			disposed = true;
 			dispose();
 		}
+		if (e.getActionCommand().equals(bClose.getActionCommand())) {
+			disposed = true;
+			dispose();
+		}
+		
 	}
 
 	@Override

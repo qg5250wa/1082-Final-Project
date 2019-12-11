@@ -36,7 +36,7 @@ public class SurveyHandler {
 		}
 	}
 
-	public void createTransactionsList() throws IOException {
+	private void createTransactionsList() throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(summariesFile));
 
 		synopses = new ArrayList<ArrayList<String>>();
@@ -76,20 +76,49 @@ public class SurveyHandler {
 			throw new IOException("No categories!");
 	}
 	
+	/**
+	 * Randomly generates a synopsis based on all of the pieces in the genTransactions.txt and the Employee's stats.
+	 * @return Synopsis
+	 */
 	public String genSynopsis() {
-		for(int i = 0; i < synopses.size(); i++) {
-			
+//		System.out.println("WE: " + emp.getWorkEthic() + "\nS: " + emp.getSociability());
+		ArrayList<ArrayList<String>> possibleLines = new ArrayList<ArrayList<String>>();
+		for(int cat = 0; cat < workEthicMax.size(); cat++) {
+			possibleLines.add(new ArrayList<String>());
+			for(int line = 0; line < workEthicMax.get(cat).size(); line++) {
+				if(emp.getWorkEthic() <= workEthicMax.get(cat).get(line)) {
+					possibleLines.get(cat).add(synopses.get(cat).get(line));
+//					System.out.println(possibleLines.get(cat).get(line));
+				}
+			}
 		}
+		
+		ArrayList<String> finalLines = new ArrayList<String>();
+		
+		for(int cat = 0; cat < possibleLines.size(); cat++) {
+			finalLines.add(possibleLines.get(cat).get((int) (Math.random() * possibleLines.get(cat).size())));
+//			System.out.println(finalLines.get(cat));
+//			System.out.println("pLines: " + possibleLines.size() + " x " + possibleLines.get(cat).size());
+		}
+		
+		String retval = "";
+		for(int i = 0; i < finalLines.size(); i++) {
+			finalLines.set(i, formatLine(finalLines.get(i), "!n", emp.getName()));
+//			System.out.println("fLines: " + finalLines.size());
+			retval += finalLines.get(i) + " ";
+		}
+		
+		return retval;
 	}
 
 	/**
-	 * Formats the line given, replacing instances of regex with the name given
+	 * Formats the line given, replacing instances of regex with the name given. If there are no instances of regex, the line stays the same.
 	 * 
 	 * @param replacement What to replace regex with
 	 * @param line        Line that contains the regex strings
 	 * @param regex       What to look for when replacing with name
 	 */
-	public String formatLine(String replacement, String line, String regex) {
+	private String formatLine(String line, String regex, String replacement) {
 		String retval = line;
 		boolean done = false;
 		while (!done) {
@@ -104,10 +133,14 @@ public class SurveyHandler {
 				done = true;
 			}
 		}
-		return retval;
+		return retval.strip();
 	}
 
-	public Employee returnEmployee() {
+	/**
+	 * Gets the Employee who handled this transaction
+	 * @return
+	 */
+	public Employee getEmployee() {
 		return emp;
 	}
 
