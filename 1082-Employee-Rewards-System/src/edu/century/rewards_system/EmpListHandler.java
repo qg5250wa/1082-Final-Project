@@ -2,7 +2,6 @@ package edu.century.rewards_system;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -71,6 +70,10 @@ public class EmpListHandler {
 		return retval;
 	}
 	
+	public void submitSurveyAnswers(SurveyGUI survey) {
+		
+	}
+
 	/**
 	 * 
 	 * @return How many employees are in the current list
@@ -78,16 +81,11 @@ public class EmpListHandler {
 	public int getAmtEmployees() {
 		return emps.length;
 	}
-
-	/**
-	 * 
-	 * @return All names currently in the Employee List
-	 */
-	public String getActiveNames() {
-		String retval = "";
-		for (int i = 0; i < emps.length; i++) {
-			if (emps[i] != null && emps[i].getName() != null)
-				retval += i + ": " + emps[i].getName() + System.lineSeparator();
+	
+	public String[] getActiveNames() {
+		String[] retval = new String[emps.length];
+		for(int i = 0; i < emps.length; i++) {
+			retval[i] = emps[i].getName();
 		}
 		return retval;
 	}
@@ -96,17 +94,40 @@ public class EmpListHandler {
 	 * Replaces an employee from the list with a null value
 	 * 
 	 * @param rip Name of the employee to be canned
-	 * @return true if the employee was found and removed, false if the employee
-	 *         couldn't be found
 	 */
-	public boolean remove(String rip) {
+	public void remove(String rip) {
 		for (int i = 0; i < emps.length; i++) {
 			if (emps[i].getName().equals(rip)) {
 				emps[i] = null;
-				return true;
 			}
 		}
-		return false;
+	}
+
+	/**
+	 * Replaces an employee from the list with a null value
+	 * 
+	 * @param index Which employee to be canned
+	 */
+	public void remove(int index) {
+		emps[index] = null;
+	}
+
+	/**
+	 * Replaces employees at the bottom of the list with null values
+	 * 
+	 * @param amt How many employees to be culled
+	 */
+	public void cullWeakestLink(int amt) {
+		while (amt > 0) {
+			emps[emps.length - --amt] = null;
+		}
+	}
+
+	/**
+	 * Replaces the employee at the bottom of the list with a null value
+	 */
+	public void cullWeakestLink() {
+		cullWeakestLink(1);
 	}
 
 	/**
@@ -131,8 +152,11 @@ public class EmpListHandler {
 			break;
 		}
 	}
+
 	/**
-	 * Adds the specified amount of ranking points to the Employee at the given index
+	 * Adds the specified amount of ranking points to the Employee at the given
+	 * index
+	 * 
 	 * @param index Which Employee to add ranking points to
 	 * @param value How many ranking points to add
 	 */
@@ -161,10 +185,17 @@ public class EmpListHandler {
 			}
 		}
 	}
-	
-	public Employee searchEmployees(String name){
-		for(int i = 0; i < emps.length; i++) {
-			if(name.equals(emps[i].getName())) {
+
+	/**
+	 * Searches for an employee with the given name
+	 * 
+	 * @param name The Employee's name
+	 * @return The first Employee object that matches the name given; if none match,
+	 *         returns null.
+	 */
+	public Employee searchEmployees(String name) {
+		for (int i = 0; i < emps.length; i++) {
+			if (name.equals(emps[i].getName())) {
 				return emps[i];
 			}
 		}
@@ -176,6 +207,14 @@ public class EmpListHandler {
 	 */
 	public void sortList() {
 		Arrays.sort(emps);
+	}
+	
+	/**
+	 * Gets the employee at the given place in the list
+	 * @param index Index of the employee you want to get
+	 */
+	public Employee getEmployee(int index) {
+		return emps[index];
 	}
 
 	/**

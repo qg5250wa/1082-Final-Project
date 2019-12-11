@@ -3,7 +3,7 @@ package edu.century.rewards_system;
 public class Driver {
 
 	public static void main(String[] args) {
-		EmpListHandler listH = new EmpListHandler(10);
-		new SurveyHandler(listH);
+		EmpListHandler emps = new EmpListHandler(10);
+		new SurveyGUI("GUI", emps);
 	}
 }

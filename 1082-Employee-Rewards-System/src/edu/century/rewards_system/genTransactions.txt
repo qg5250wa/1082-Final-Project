@@ -1,30 +1,30 @@
-# List of things the Synopsis can generate. The numbers at the beginning determine the maximum amount of each variable needed to trigger these behaviors.
-# {workEthic, sociability}
-# E.g.: {8, 6} means that a behavior only triggers if the Employee has 8 or below workEthic and 6 or below sociability.
+// List of things the Synopsis can generate. The numbers at the beginning determine the maximum amount of each variable needed to trigger these behaviors.
+// {workEthic, sociability}
+// E.g.: {8, 6} means that a behavior only triggers if the Employee has 8 or below workEthic and 6 or below sociability.
 
 # Eagerness and Attentiveness scores
-{10, 10} $n was ready for you as soon as you came up to the register.
-{10, 9} $n was busy with other things, but assured you that they would be with you shortly. $n took less than a minute to start helping you.
-{10, 7} $n was busy with other things, and didn't notice you until you got their attention. However, $n helped immediately after you spoke up.
-{10, 5} $n was busy with other things, and didn't notice you until you got their attention. They took a few minutes to finally get around to helping you.
-{8, 10} $n didn't seem to notice you before you got to the register, but as soon as you did, they helped you.
-{5, 5} $n didn't seem to notice you before you got to the register, and even then you had to speak up before they noticed you.
+{10, 10} !n was ready for you as soon as you came up to the register.
+{10, 9} !n was busy with other things, but assured you that they would be with you shortly. !n took less than a minute to start helping you.
+{10, 7} !n was busy with other things, and didn't notice you until you got their attention. However, !n helped immediately after you spoke up.
+{10, 5} !n was busy with other things, and didn't notice you until you got their attention. They took a few minutes to finally get around to helping you.
+{8, 10} !n didn't seem to notice you before you got to the register, but as soon as you did, they helped you.
+{5, 5} !n didn't seem to notice you before you got to the register, and even then you had to speak up before they noticed you.
 
 # Rewards card scores
-{10, 10} $n offered you a Rewards Card and advertised all of the money-saving features that having one would get you. They assured you that signing up for one would be very quick.
-{7, 7} $n offered you a Rewards Card and advertised all of the money-saving features that having one would get you.
-{6, 6} $n offered you a Rewards Card and advertised some of the features of it, but didn't seem all to interested in it themselves.
-{4, 4} $n offered you a Rewards Card.
+{10, 10} !n offered you a Rewards Card and advertised all of the money-saving features that having one would get you. They assured you that signing up for one would be very quick.
+{7, 7} !n offered you a Rewards Card and advertised all of the money-saving features that having one would get you.
+{6, 6} !n offered you a Rewards Card and advertised some of the features of it, but didn't seem all to interested in it themselves.
+{4, 4} !n offered you a Rewards Card.
 
 # Charge card scores
-{10, 10} $n offered you a Charge Card and advertised all of the money-saving features that having one would get you. They assured you that signing up for one would be very quick.
-{7, 7} $n offered you a Charge Card and advertised all of the money-saving features that having one would get you.
-{6, 6} $n offered you a Charge Card and advertised some of the features of it, but didn't seem all to interested in it themselves.
-{4, 4} $n offered you a Charge Card.
+{10, 10} !n offered you a Charge Card and advertised all of the money-saving features that having one would get you. They assured you that signing up for one would be very quick.
+{7, 7} !n offered you a Charge Card and advertised all of the money-saving features that having one would get you.
+{6, 6} !n offered you a Charge Card and advertised some of the features of it, but didn't seem all to interested in it themselves.
+{4, 4} !n offered you a Charge Card.
 
 # Speed scores
 {10, 10} The whole transaction took very little time, and you were able to get back to your busy day quickly.
 {7, 10} The whole transaction took a few minutes, but it seemed like it could've been completed more quickly.
 {5, 10} The transaction wasn't as fast as you would've liked it, but it wasn't annoyingly slow either.
 {4, 10} The transaction very clearly took longer than it should've, to the point where it was almost a waste of time.
-{3, 10} %n made a lot of mistakes and the transaction ended up taking even longer than the shopping trip itself.
+{3, 10} !n made a lot of mistakes and the transaction ended up taking even longer than the shopping trip itself.

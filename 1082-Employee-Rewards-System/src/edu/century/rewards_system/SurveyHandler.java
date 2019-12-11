@@ -19,38 +19,96 @@ import java.util.ArrayList;
  * 8: Charge card signup [list] [+20, +18, +16, +14, -4, 0]
  */
 public class SurveyHandler {
-	
-	private EmpListHandler listH;
+
+	private Employee emp;
 	private File summariesFile;
-	private ArrayList<String> synopses;
-	private ArrayList<Integer> workEthicMax;
-	private ArrayList<Integer> socialMax;
-	
-	public SurveyHandler(EmpListHandler listH) {
-		this.listH = listH;
+	private ArrayList<ArrayList<String>> synopses;
+	private ArrayList<ArrayList<Integer>> workEthicMax;
+	private ArrayList<ArrayList<Integer>> socialMax;
+
+	public SurveyHandler(Employee emp) {
+		this.emp = emp;
 		try {
 			summariesFile = new File(getClass().getResource("genTransactions.txt").toURI());
 			createTransactionsList();
-			System.out.println(workEthicMax.toString());
 		} catch (URISyntaxException | IOException e) {
-			e.printStackTrace();
+			System.exit(1);
 		}
 	}
-	
+
 	public void createTransactionsList() throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(summariesFile));
-		synopses = new ArrayList<String>();
-		workEthicMax = new ArrayList<Integer>();
-		socialMax = new ArrayList<Integer>();
-		
-		while(reader.ready()) {
-			String temp = reader.readLine().strip();
-			if(temp.startsWith("{")) {
-				temp = temp.substring(1);
-				int tNumSize = temp.indexOf(",");
-				workEthicMax.add(Integer.parseInt(temp.substring(0 , tNumSize)));
+
+		synopses = new ArrayList<ArrayList<String>>();
+		workEthicMax = new ArrayList<ArrayList<Integer>>();
+		socialMax = new ArrayList<ArrayList<Integer>>();
+
+		while (reader.ready()) {
+			if (reader.readLine().strip().startsWith("#")) {
+				synopses.add(new ArrayList<String>());
+				workEthicMax.add(new ArrayList<Integer>());
+				socialMax.add(new ArrayList<Integer>());
 			}
 		}
+		reader.close();
+
+		reader = new BufferedReader(new FileReader(summariesFile));
+
+		int index = -1;
+		while (reader.ready()) {
+			String temp = reader.readLine().strip();
+			if (temp.startsWith("#")) {
+				index++;
+			} else if (temp.startsWith("{")) {
+				temp = temp.substring(1);
+				int tNumSize = temp.indexOf(",");
+				workEthicMax.get(index).add(Integer.parseInt(temp.substring(0, tNumSize)));
+
+				temp = temp.substring(tNumSize + 2);
+				tNumSize = temp.indexOf("}");
+				socialMax.get(index).add(Integer.parseInt(temp.substring(0, tNumSize)));
+
+				temp = temp.substring(tNumSize + 2);
+				synopses.get(index).add(temp);
+			}
+		}
+		if(index == -1)
+			throw new IOException("No categories!");
 	}
 	
+	public String genSynopsis() {
+		for(int i = 0; i < synopses.size(); i++) {
+			
+		}
+	}
+
+	/**
+	 * Formats the line given, replacing instances of regex with the name given
+	 * 
+	 * @param replacement What to replace regex with
+	 * @param line        Line that contains the regex strings
+	 * @param regex       What to look for when replacing with name
+	 */
+	public String formatLine(String replacement, String line, String regex) {
+		String retval = line;
+		boolean done = false;
+		while (!done) {
+			if (retval.contains(regex)) {
+				String[] temps = retval.split(regex);
+				retval = "";
+				for (int i = 0; i < temps.length - 1; i++) {
+					retval += temps[i] + replacement;
+				}
+				retval += temps[temps.length - 1];
+			} else {
+				done = true;
+			}
+		}
+		return retval;
+	}
+
+	public Employee returnEmployee() {
+		return emp;
+	}
+
 }
